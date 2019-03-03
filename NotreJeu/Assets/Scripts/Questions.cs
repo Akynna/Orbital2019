@@ -15,7 +15,7 @@ public class Questions : MonoBehaviour
     static System.Random rnd = new System.Random();
     bool isRight;
     Quizz q;
-    // Start is called before the first frame update
+    public int level;
     void Start()
     {
 
@@ -40,7 +40,7 @@ public class Questions : MonoBehaviour
     public void CreateNewQuestion()
     {
 
-        List<string> asking = q.ask("Geo");
+        List<string> asking = q.ask();
         pending = 0;
         n = asking[0];
         m = asking[1];
@@ -61,5 +61,10 @@ public class Questions : MonoBehaviour
             Vampire.GetComponent<VampireMain>().TuAsTort(isRight);
      
         }
+    }
+    public void ChangerLevel()
+    {
+        level = Vampire.GetComponent<VampireMain>().level;
+        q = new Quizz(level);
     }
 }

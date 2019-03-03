@@ -51,12 +51,13 @@ public class VampireMain : MonoBehaviour
     bool wrong;
     bool changerEcole = false;
     bool losing = false;
-    bool jumping;
+    public bool jumping;
     Vector3 posi;
     public int level = 1;
     bool girl;
     bool decu;
     bool gagner = false;
+    bool hasjumped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -70,11 +71,20 @@ public class VampireMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Timer == 360 && hasjumped)
+        {
+            hasjumped = false;
+            ChangerEleve();
+            BlackBoard.GetComponent<Questions>().CreateNewQuestion();
+        }
         Timer += 1;
         if (decu && Timer == 121)
         {
             decu = false;
             sprite.sprite = Idle;
+
+            BlackBoard.GetComponent<Questions>().CreateNewQuestion();
 
         }
         if (jumping)
@@ -82,9 +92,9 @@ public class VampireMain : MonoBehaviour
             if (Timer <= 30)
             {
                 float t = 0.3f * Timer;
-                transform.position = posi + new Vector3(1.5f*t, t - 0.1f*t * t, 0);
+                transform.position = posi + new Vector3(1.5f * t, t - 0.1f * t * t, 0);
             }
-            if(Timer == 30)
+            if (Timer == 30)
             {
                 sprite.sprite = Mange;
                 Student.SetActive(false);
@@ -92,13 +102,15 @@ public class VampireMain : MonoBehaviour
             }
             if (Timer == 240)
             {
-                transform.position = posi;
+
                 jumping = false;
+                transform.position = posi;
 
 
                 Student.SetActive(true);
                 Student.transform.Translate(new Vector3(0, -2, 0));
                 Student.transform.Rotate(new Vector3(0, 0, 90));
+                
                 if (wrong)
                 {
                     Lose();
@@ -111,32 +123,32 @@ public class VampireMain : MonoBehaviour
 
             }
         }
+        
         else
         {
-            if (Timer == 120 && !changerEcole && !losing && !decu && !gagner)
+            if (Timer == 120 && !changerEcole && !losing && !decu && !gagner && !hasjumped)
             {
                 MangerEleve();
 
                 TuAsTortSprite.SetActive(false);
 
             }
-            if (Timer == 121 && !changerEcole && !losing && !gagner)
+            if (Timer == 121 && !changerEcole && !losing && !gagner && !hasjumped)
             {
-
                 BlackBoard.GetComponent<Questions>().CreateNewQuestion();
             }
 
-            if (Timer == 120 && changerEcole && !gagner)
+            if (Timer == 120 && changerEcole && !gagner && !hasjumped)
             {
                 Bulle.GetComponentInChildren<Text>().text = secondTextBox;
 
             }
-            if (Timer >= 240 && Timer <= 480 && changerEcole && !gagner)
+            if (Timer >= 240 && Timer <= 480 && changerEcole && !gagner && !hasjumped)
             {
                 fadeOut.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, ((float)(Timer - 240)) / 240);
                 fadeOut.SetActive(true);
             }
-            if (Timer == 480 && changerEcole && !gagner)
+            if (Timer == 480 && changerEcole && !gagner && !hasjumped)
             {
                 Bulle.SetActive(false);
                 level += 1;
@@ -156,27 +168,28 @@ public class VampireMain : MonoBehaviour
                 }
 
             }
-            if (Timer == 540 && changerEcole && !gagner)
+            if (Timer == 540 && changerEcole && !gagner && !hasjumped)
             {
                 fadeOut.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
                 fadeOut.SetActive(false);
                 changerEcole = false;
-                BlackBoard.GetComponent<Questions>().CreateNewQuestion();
+                BlackBoard.GetComponent<Questions>().ChangerLevel();
                 ChangerEleve();
+                BlackBoard.GetComponent<Questions>().CreateNewQuestion();
             }
 
 
-            if (Timer == 120 && gagner)
+            if (Timer == 120 && gagner && !hasjumped)
             {
                 Bulle.GetComponentInChildren<Text>().text = secondTextVictory;
 
             }
-            if (Timer >= 240 && Timer <= 480 && gagner)
+            if (Timer >= 240 && Timer <= 480 && gagner && !hasjumped)
             {
                 fadeOut.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, ((float)(Timer - 240)) / 240);
                 fadeOut.SetActive(true);
             }
-            if (Timer == 480 && gagner)
+            if (Timer == 480 && gagner && !hasjumped)
             {
                 Bulle.SetActive(false);
                 fadeOut.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
@@ -185,7 +198,7 @@ public class VampireMain : MonoBehaviour
 
             }
 
-            if (Timer == 180 && losing && life != 0)
+            if (Timer == 180 && losing && life != 0 && !hasjumped)
             {
                 BulleD.SetActive(false);
                 Director.SetActive(false);
@@ -196,12 +209,12 @@ public class VampireMain : MonoBehaviour
 
             }
 
-            if (Timer == 180 && losing && life == 0)
+            if (Timer == 180 && losing && life == 0 && !hasjumped)
             {
                 BulleD.GetComponentInChildren<Text>().text = secondTextD;
 
             }
-            if (Timer == 300 && losing && life == 0)
+            if (Timer == 300 && losing && life == 0 && !hasjumped)
             {
                 gameoverscreen.SetActive(true);
                 Timer = 1000;
@@ -238,13 +251,18 @@ public class VampireMain : MonoBehaviour
             Bulle.GetComponentInChildren<Text>().text = firstTextBox;
             Timer = 0;
         }
-        if (score == TargetScore * 3)
+        else if (score == TargetScore * 3)
         {
             gagner = true;
             Bulle.SetActive(true);
             Bulle.GetComponentInChildren<Text>().text = firstTextVictoire;
             Timer = 0;
 
+        }
+        else
+        {
+            hasjumped = true;
+            Debug.Log(Timer);
         }
     }
     public void MangerEleve()

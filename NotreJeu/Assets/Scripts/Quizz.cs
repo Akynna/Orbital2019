@@ -5,7 +5,7 @@ namespace Application
 {
     public class Quizz
     {
-        public Random rand = new Random();
+        private Random rand = new Random();
 
         SortedDictionary<String, List<List<String>>> dico = new SortedDictionary<string, List<List<string>>>();
         //List<List<String>> dico = new List<List<string>>();
@@ -15,7 +15,54 @@ namespace Application
             if (level == 1)
             {
                 List<List<string>> maths = new List<List<string>>();
-                maths.Add(new List<string> { "Question?", "Reponse juste", "Reponse fausse" });
+
+                for (int i = 0; i < 10; i++)
+                {
+                    int a = 0;
+                    int b = 0;
+                    int op = rand.Next(1, 4);
+                    int result = 0;
+                    int faute = 0;
+                    int c = rand.Next(-5, 5);
+                    string oper = "";
+                    if (op == 1)
+                    {
+                        oper = "+";
+                        a = rand.Next(1, 51);
+                        b = rand.Next(1, 51);
+                        result = a + b;
+                        faute = a + b + c;
+                    } else if (op == 2)
+                    {
+                        oper = "-";
+                        a = rand.Next(1, 51);
+                        b = rand.Next(1, 51);
+                        result = a - b;
+                        faute = a - b + c;
+                    } else if (op == 3)
+                    {
+                        a = rand.Next(1, 13);
+                        b = rand.Next(1, 13);
+                        oper = "*";
+                        result = a * b;
+                        faute = a * b + c;
+                    } else { Console.WriteLine("NOOO " + op); }
+
+                    /*int vraifaux = rand.Next(0, 2);
+                    if (vraifaux == 0)
+                    {
+                        maths.Add(new List<string> { a.ToString() + " " + oper + " " + b.ToString() + " =", faute.ToString(), "0"});
+
+                    } else if (vraifaux == 1)
+                    {
+                        maths.Add(new List<string> { a.ToString() + " " + oper + " " + b.ToString() + " =", result.ToString(), "1"});
+                    }
+                    Console.WriteLine(maths[i][0] + " " + maths[i][1] + " " + maths[i][2] + " ");
+                    //string test = maths[i][0] + " " + maths[i][1] + " " + maths[i][2] + " ";
+                    */
+                    maths.Add(new List<string> { a.ToString() + " " + oper + " " + b.ToString() + " =", result.ToString(), faute.ToString() });
+                }
+
                 dico.Add("Maths", maths);
 
                 List<List<string>> geo = new List<List<string>>();
@@ -88,12 +135,11 @@ namespace Application
                 maths.Add(new List<string> { "La transformée Fourier du cosinus est sinus.", "Faux", "Vrai" });
                 dico.Add("Maths", maths);
 
-                /*
-                List<List<string>> geo = new List<List<string>>();
-                geo.Add(new List<string> { "Trouve une capitale qui commence par Z:", "Zagreb", "Zern", "Zurich" });
-                geo.Add(new List<string> { "Quelle est la plus haute montagne dans le monde?", "Everest", "Mont-Blanc", "Jungfrau Joch", "Matterhorn" });
-                geo.Add(new List<string> { "Combien y a-t-il d'états aux Etats-Unis?", "50", "42", "23" });
-                dico.Add("Geo", geo);*/
+
+                List<List<string>> lettres = new List<List<string>>();
+                lettres.Add(new List<string> { "Quelle est la phrase finale de \"Candide, ou l'Optimisme\"?", "Il faut cultiver son jardin", "Tout va pour le mieux dans le meilleur des mondes" });
+                lettres.Add(new List<string> { "Combien de déclinaisons y a-t-il en latin?", "5", "3", "4" });
+                dico.Add("Lettres", lettres);
 
             }
 
@@ -107,8 +153,10 @@ namespace Application
         }
 
 
-        public List<string> ask(string s)
+        public List<string> ask()
         {
+            string s = domain();
+
             List<List<string>> questions = new List<List<string>>();
             dico.TryGetValue(s, out questions);
 
@@ -138,7 +186,24 @@ namespace Application
             }
 
         }
-        
 
+        public string domain()
+        {
+            List<List<string>> questions = new List<List<string>>();
+            List<string> domains = new List<string>();
+            int choice;
+            foreach (KeyValuePair<string, List<List<string>>> entry in dico)
+            {
+                domains.Add(entry.Key);
+                // do something with entry.Value or entry.Key
+            }
+            do
+            {
+                choice = rand.Next(0, dico.Count);
+                dico.TryGetValue(domains[choice], out questions);
+            } while (questions.Count == 0);
+
+            return domains[choice];
+        }
     }
 }

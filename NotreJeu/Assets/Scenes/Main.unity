@@ -263,7 +263,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &95905109
 RectTransform:
@@ -482,10 +482,10 @@ MonoBehaviour:
   Duni: {fileID: 21300000, guid: 57f534794057f5144a7e850503c5ed35, type: 3}
   E1g: {fileID: 21300000, guid: 9f7cad05d29b80d49890a3b9691a37cb, type: 3}
   E1f: {fileID: 21300000, guid: 3d4dd63a09860d94c828182d85e1e8eb, type: 3}
-  E2g: {fileID: 21300000, guid: 9f7cad05d29b80d49890a3b9691a37cb, type: 3}
-  E2f: {fileID: 21300000, guid: 3d4dd63a09860d94c828182d85e1e8eb, type: 3}
-  E3g: {fileID: 21300000, guid: 9f7cad05d29b80d49890a3b9691a37cb, type: 3}
-  E3f: {fileID: 21300000, guid: 3d4dd63a09860d94c828182d85e1e8eb, type: 3}
+  E2g: {fileID: 21300000, guid: 08b9740852c3cb647855ffb6465f8867, type: 3}
+  E2f: {fileID: 21300000, guid: 2a27d2bd4eddc5b428e377d846c1d632, type: 3}
+  E3g: {fileID: 21300000, guid: 307ac21712106f045ba2c581ff9c76bf, type: 3}
+  E3f: {fileID: 21300000, guid: 69d8b102196365d4b8f4a270b739ba1c, type: 3}
   craie1: {fileID: 1664667126}
   craie2: {fileID: 1653089323}
   Student: {fileID: 398028011}
@@ -503,6 +503,7 @@ MonoBehaviour:
   fadeOut: {fileID: 1702345980}
   victoryscreen: {fileID: 1287639737}
   gameoverscreen: {fileID: 1679150565}
+  jumping: 0
   level: 1
 --- !u!1 &269331490
 GameObject:
