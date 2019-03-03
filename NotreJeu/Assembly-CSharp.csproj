@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Questions.cs" />
+    <Compile Include="Assets\Scripts\Quizz.cs" />
     <Compile Include="Assets\Scripts\VampireMain.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/Simon/Documents/GitHub/Orbital2019/NotreJeu/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

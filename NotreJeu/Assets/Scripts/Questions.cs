@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Application;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,15 +9,17 @@ public class Questions : MonoBehaviour
     public Text questionText;
     public Text answerText;
     public GameObject Vampire;
-    int n;
-    int m;
-    int r;
+    string n;
+    string m;
     int pending = 0;
     static System.Random rnd = new System.Random();
     bool isRight;
+    Quizz q;
     // Start is called before the first frame update
     void Start()
     {
+
+        q = new Quizz(1);
         CreateNewQuestion();
     }
 
@@ -26,15 +29,9 @@ public class Questions : MonoBehaviour
         pending += 1;
         if (pending == 60)
         {
-            isRight= rnd.Next(0,2)!=0;
-            int error = Random.Range(1,3)*new List<int>() {-100,-10,-1, 1, 10, 100 }[rnd.Next(0,3)];
-            if (isRight){
-                answerText.text = "" + r;
-            }
-            else
-            {
-                answerText.text = "" + (r+error);
-            }
+            
+            answerText.text = m;
+            
             
         }
         
@@ -42,17 +39,19 @@ public class Questions : MonoBehaviour
 
     public void CreateNewQuestion()
     {
+
+        List<string> asking = q.ask("Geo");
         pending = 0;
-        n = Random.Range(0, 999);
-        m = Random.Range(0, 999);
-        r = n + m;
-        questionText.text = n + " + " + m + " = ?";
+        n = asking[0];
+        m = asking[1];
+        isRight = asking[2] == "1";
+        questionText.text = n;
         answerText.text = "";
 
     }
     public void Valider()
     {
-        CreateNewQuestion();
+        Vampire.GetComponent<VampireMain>().EtreTriste();
     }
 
     public void TuAsTort()
